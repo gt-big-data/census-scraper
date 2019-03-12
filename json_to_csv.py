@@ -47,7 +47,7 @@ these json files have nasty formatting :)
         INTPTLAT10 - interpolation latitude
         INTPTLON10 - interpolation longitude
         GEOid
-        <county_name>n-bl - internal county block number
+        BLOCK_POPULATION - population of each block
 
         for more info about this census (2010) visit: https://www2.census.gov/geo/pdfs/maps-data/data/tiger/tgrshp2010/TGRSHP10SF1CH5.pdf
 '''
@@ -61,10 +61,13 @@ for file in file_names:
         for block in block_array:
             block_properties = block["properties"]
             block_fips = block_properties["GEOID10"]
-            
+
             coordinate_array = block["geometry"]["coordinates"]
             
-            block_id_table.write(block_fips+",\n")
+            block_id_table.write(block_fips+",")
+            block_id_table.write(str(block_properties["BLOCK_POPULATION"])+",")
+            block_id_table.write(str(block_properties["INTPTLAT10"])+",")
+            block_id_table.write(str(block_properties["INTPTLON10"])+"\n")
             for i in range(len(coordinate_array)):
                 line_group = coordinate_array[i]
                 for j in range(len(line_group)):
